@@ -1,0 +1,31 @@
+buildscript {
+    ext.kotlin_version = '2.0.21'  // Use a stable and compatible Kotlin version
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Android Gradle Plugin (ensure this is compatible with your Gradle version)
+        classpath 'com.android.tools.build:gradle:7.0.4'
+
+        // Kotlin Gradle Plugin (use a compatible version with the Android Gradle Plugin)
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
